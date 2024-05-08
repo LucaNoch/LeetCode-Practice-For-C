@@ -14,7 +14,7 @@ int missingNumber(int* nums, int numsSize) {
     int figure = numsSize;
 
     for (int i = 0; i < numsSize; ++i) {
-        figure ^= i ^ nums[i];
+        figure ^= i ^ nums[i];  // XOR converts decimal numbers to binary before performing operations.
     }
     return figure;
 }
