@@ -1,26 +1,26 @@
 // Solution 1
 #define HASH_TABLE_SIZE 26
 
-// 哈希表节点的结构
+// 哈希表节点的结构Structure of Hash Table Node
 struct Node {
     char key;
     int value;
     struct Node* next;
 };
 
-// 哈希表的结构
+// Structure of Hash Table
 struct HashTable {
     struct Node* buckets[HASH_TABLE_SIZE];
 };
 
-// 初始化哈希表
+// Initialize the Hash Table
 struct HashTable* initHashTable() {
     struct HashTable* ht = (struct HashTable*)malloc(sizeof(struct HashTable));
     memset(ht->buckets, 0, sizeof(ht->buckets));
     return ht;
 }
 
-// 插入键值对到哈希表
+// Inserting key-value pairs into a Hash Table
 void insert(struct HashTable* ht, char key, int value) {
     int index = key - 'a';
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
@@ -30,7 +30,7 @@ void insert(struct HashTable* ht, char key, int value) {
     ht->buckets[index] = newNode;
 }
 
-// 查找键对应的值
+// Find the value corresponding to the key
 int find(struct HashTable* ht, char key) {
     int index = key - 'a';
     struct Node* current = ht->buckets[index];
@@ -40,7 +40,7 @@ int find(struct HashTable* ht, char key) {
         }
         current = current->next;
     }
-    return -1; // 如果找不到返回-1
+    return -1; // Return -1 if not found
 }
 
 char ** findWords(char ** words, int wordsSize, int* returnSize) {
@@ -48,7 +48,7 @@ char ** findWords(char ** words, int wordsSize, int* returnSize) {
     char** ans = (char **)malloc(sizeof(char*) * wordsSize);
     *returnSize = 0;
 
-    // 初始化键盘行号的哈希表
+    // Initialize the Hash Table of keyboard line numbers
     insert(ht, 'q', 1);
     insert(ht, 'w', 1);
     insert(ht, 'e', 1);
@@ -76,7 +76,7 @@ char ** findWords(char ** words, int wordsSize, int* returnSize) {
     insert(ht, 'n', 3);
     insert(ht, 'm', 3);
 
-    // 遍历单词数组，检查每个单词是否可以使用同一行的键盘字符输入
+    // Iterate through the array of words, checking if each word can be entered using the same line of keyboard characters
     for (int i = 0; i < wordsSize; i++) {
         char* word = words[i];
         int row = find(ht, tolower(word[0]));
@@ -88,12 +88,12 @@ char ** findWords(char ** words, int wordsSize, int* returnSize) {
             }
         }
         if (valid) {
-            ans[*returnSize] = strdup(word); // 复制单词到结果数组
+            ans[*returnSize] = strdup(word); // Copying words to the result array
             (*returnSize)++;
         }
     }
 
-    // 释放哈希表内存
+    // Free hash table memory
     for (int i = 0; i < HASH_TABLE_SIZE; i++) {
         struct Node* current = ht->buckets[i];
         while (current != NULL) {
